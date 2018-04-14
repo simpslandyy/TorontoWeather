@@ -5,6 +5,7 @@ import { types, methods } from '../constants';
 const stringifyDarkSky = (lat, lng) => {
   // Temp bypass cors, proxy https://cors-anywhere.herokuapp.com/
   let cors =  'https://cors-anywhere.herokuapp.com/';
+  console.log(cors + config.darkSky.baseurl + config.darkSky.key + '/' + lat + ',' + lng)
   return cors + config.darkSky.baseurl + config.darkSky.key + '/' + lat + ',' + lng;
 }
 
@@ -32,10 +33,10 @@ export const fetchWeather = (place) => {
 
       var response = await fetch(stringifyDarkSky(lat, lng), methods.GET);
       var data = await response.json();
-
       if (response.ok) {
         dispatch({type: types.SEARCH_SUCCESS, data: data})
       } else {
+        console.log("ERROR")
         dispatch({type: types.SEARCH_ERROR, msg: 'Something has gone wrong on our end! Sorry!'});
       }
     }

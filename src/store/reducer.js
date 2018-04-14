@@ -1,14 +1,17 @@
 import Immutable from 'immutable';
+import  moment  from 'moment';
 import { types } from '../constants';
-
 const { Map } = Immutable;
 
 const currentlyIS = Map({
   time: null,
+  date: null,
   summary: "",
   icon: "",
-  temp: 0,
-  feelsLike: 0,
+  temp_fah: 0,
+  temp_cel: 0,
+  feelsLike_fah: 0,
+  feelsLike_cel: 0,
   humidity: 0,
   windSpeed: 0,
   windGust: 0
@@ -20,16 +23,19 @@ const minutelyIS = Map({
 
 const alertsIS = Map({
   alert: "",
-  regions: "",
+  regions: [],
   warning_level: "",
   description: ""
 });
 
 const parseCurrently = (state, data) => {
+  //conver windSpeed from mph to kph
   return state.set('summary', data.summary)
     .set('icon', data.icon)
-    .set('temp', data.temperature)
-    .set('feelsLike', data.apparentTemperature)
+    .set('temp_fah', data.temperature)
+    .set('temp_cel', (data.temperature - 32) * 1.8)
+    .set('feelsLike_cel', (data.apparentTemperature - 32) * 1.8)
+    .set('feelsLike_fah', data.apparentTemperature)
     .set('humidity', data.humidity)
     .set('windSpeed', data.windSpeed)
     .set('windGust', data.windGust);
@@ -49,7 +55,7 @@ const parseAlerts = (state, data) => {
 export const currently = (state = currentlyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
-      return parseCurrently(state, action.data.currently);
+      return action.data.currently ? parseCurrently(state, action.data.currently) : state;
     default:
       return state;
   }
@@ -58,7 +64,7 @@ export const currently = (state = currentlyIS, action = {}) => {
 export const minutely = (state = minutelyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
-      return parseMinutely(state, action.data.minutely);
+      return action.data.minutely ? parseMinutely(state, action.data.minutely) : state;
     default:
       return state;
   }

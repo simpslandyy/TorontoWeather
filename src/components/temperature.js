@@ -10,8 +10,10 @@ class Temperature extends React.Component {
   render() {
     return (
       <div className="col-4">
-        <div className="card" id="temperature-content">
-          <h1 className="card-title"> {Math.ceil(this.props.temp) + '°C'}<span className="wi-day-sunny"> </span> </h1>
+        <div className="card text-center" id="temperature-content">
+          <h1 className="card-title">
+          {TemperatureUnits(this.props)}
+          </h1>
           <h6 className="card-subtitle mb-2 text-muted"> {this.props.summary} </h6>
         </div>
         <ul className="list-group list-group-flush">
@@ -23,12 +25,14 @@ class Temperature extends React.Component {
   }
 
 }
-//
-// const backgroundIcon = () => {
-//   switch(this.props.temp) {
-//     case:
-//
-//   }
-// }
+
+const TemperatureUnits = (props, units = 'C') => {
+  if (units == 'C') {
+      return Math.ceil(props.temp_cel) + '°C';
+  } else {
+     return Math.ceil(props.temp_fah) + '°F';
+  }
+}
+
 
 export { Temperature };
