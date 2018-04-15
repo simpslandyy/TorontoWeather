@@ -13,7 +13,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ttf|eot|woff|woff2)$/,
+        test: /\.(|svg|ttf|eot|woff|woff2)$/,
         loader: "file-loader",
         options: {
           name: "fonts/[name].[ext]",
