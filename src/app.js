@@ -12,6 +12,8 @@ import { fetchWeather } from './store/action';
 import "regenerator-runtime/runtime"; //async await
 import './_custom.scss';
 import 'bootstrap';
+import '../assets/stylesheets/css/weather-icons.css';
+import '../assets/stylesheets/css/weather-icons-wind.css';
 
 
 const store = createStore(combineReducers(reducers), applyMiddleware(thunk));

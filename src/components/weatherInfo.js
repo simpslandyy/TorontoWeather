@@ -6,12 +6,29 @@ class WeatherInfo extends React.Component {
   }
 
   render() {
+    console.log({HERE: this.props})
+
     return (
       <div className="col-8">
         <div className="row">
-          <InfoCards title="Humidity" data={this.props.humidity} unit=""/>
-          <InfoCards title="Wind Speed" data={this.props.windSpeed} unit='mph' />
-          <InfoCards title="Wind Gust" data={this.props.windGust} unit="mph"/>
+
+          <InfoCards
+          title="Humidity"
+          data={this.props.humidity}
+          unit="%"
+          spanClass="wi wi-humidity"/>
+
+          <InfoCards
+          title="Wind"
+          data={this.props.windSpeed}
+          unit='mph'
+          spanClass={"wi wi-wind towards-" + this.props.windBearing + "-deg"}/>
+
+          <InfoCards
+          title="Wind Gust"
+          data={this.props.windGust}
+          unit="mph"
+          spanClass="wi wi-small-craft-advisory"/>
 
         </div>
       </div>
@@ -22,13 +39,12 @@ class WeatherInfo extends React.Component {
 
 const InfoCards = (props) => {
   return (
-    <div className="col-sm-4">
+    <div className="col-4">
       <div className="card">
         <div className="card-body">
-          <h4 className="card-title">{props.data + " " + props.unit}</h4>
-          <h6 className="card-subtitle mb-2 text-muted"> {props.title} </h6>
-
-
+          <h4 className="card-title">{props.data + " " + props.unit} </h4>
+          <h5 className="card-subtitle mb-2 text-muted"> {props.title}
+           <span className={"ml-1 "+ props.spanClass}></span> </h5>
         </div>
       </div>
     </div>

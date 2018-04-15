@@ -6,12 +6,13 @@ class WeatherAlerts extends React.Component {
   }
 
   render() {
-    console.log({HERE: this.props})
     return (
-      <div className="col-8">
+      <div className="col">
         <div className="card text-center">
           <div className="card-header" id="weather-alerts">
-              {this.props.alert}
+              <h5>
+                {this.props.alert}  <span className="wi wi-earthquake"> </span>
+              </h5>
           </div>
           <div className="card-body">
             <p className="card-text"> {this.props.description} </p>
