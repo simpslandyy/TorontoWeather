@@ -70,3 +70,19 @@ export const toggleTemp = (fromUnit, toUnit) => {
     }
   };
 };
+
+/**
+  Action to toggle between MPH and KPH
+**/
+export const toggleSpeed = (fromUnit, toUnit) => {
+  return dispatch => {
+    console.log({toUnit: toUnit, fromUnit: fromUnit})
+    if (fromUnit != toUnit) {
+      if (toUnit == "kph") {
+        dispatch({type: types.TO_KPH})
+      } else {
+        dispatch({type: types.TO_MPH})
+      }
+    }
+  };
+};

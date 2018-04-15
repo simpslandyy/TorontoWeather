@@ -58,10 +58,10 @@ const parseAlerts = (state, data) => {
 
 export const units = (state = unitsIS, action = {}) => {
   switch(action.type) {
-    // case types.TO_MPH:
-    //
-    // case types.TO_KPH:
-
+    case types.TO_MPH:
+      return state.set('speed_unit', 'mph');
+    case types.TO_KPH:
+      return state.set('speed_unit', 'kph');
     case types.TO_CELSIUS:
       return state.set('temp_unit', 'C');
     case types.TO_FAHREN:
@@ -74,6 +74,20 @@ export const currently = (state = currentlyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
       return action.data.currently ? parseCurrently(state, action.data.currently) : state;
+
+    case types.TO_MPH:
+      var windSpeed = state.get('windSpeed');
+      var windGust = state.get('windGust');
+      const TOMPH = 0.621371;
+
+      return state.set('windGust', Math.ceil(windGust * TOMPH)).set('windSpeed', Math.ceil(windSpeed * TOMPH))
+
+    case types.TO_KPH:
+      var windSpeed = state.get('windSpeed');
+      var windGust = state.get('windGust');
+      const TOKPH = 1.60934 ;
+
+      return state.set('windGust', Math.ceil(windGust * TOKPH)).set('windSpeed', Math.ceil(windSpeed * TOKPH))
 
     case types.TO_CELSIUS:
       var temp = state.get('temp');

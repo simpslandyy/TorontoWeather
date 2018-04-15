@@ -2,44 +2,31 @@ import React from 'react';
 import { Temperature } from '../components/temperature';
 import { WeatherInfo } from '../components/weatherInfo';
 import { WeatherAlerts } from '../components/weatherAlerts';
+import { Navigation } from '../components/navigation';
 
 import { getCurrently } from '../store/reducer';
-import { toggleTemp } from '../store/action';
+import { toggleTemp, toggleSpeed } from '../store/action';
 import { connect } from 'react-redux';
 
 class TorontoWeather extends React.Component {
     constructor(props) {
       super(props);
 
-      this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick (event) {
-      console.log({HANDLER: this.props})
-      event.preventDefault();
-      let id = event.target.id;
-      let unitValue = id.split('-')[1];
-      let currValue = this.props.units.temp_unit;
-      switch(unitValue) {
-        case 'F':
-        case 'C':
-          console.log("HANDLING " + unitValue)
-          this.props.toggleTempUnit(currValue, unitValue);
-          break;
-        case 'kph':
-        case 'mph':
-          console.log("Conversion here");
-          break;
-      }
     }
 
     render () {
       return (
 
         <div className="container">
-            <Navigation handler={this.handleClick} title={this.props.search} temp_unit={this.props.units.temp_unit} speed_unit={this.props.units.speed_unit}/>
+            <Navigation
+            title={this.props.search}
+            temp_unit={this.props.units.temp_unit}
+            speed_unit={this.props.units.speed_unit}
+            toggleTempUnit={this.props.toggleTempUnit}
+            toggleSpeedUnit={this.props.toggleSpeedUnit}/>
+
             <div className="row">
-              <WeatherInfo  {...this.props.current} />
+              <WeatherInfo speed_unit={this.props.units.speed_unit} {...this.props.current} />
               <Temperature temp_unit={this.props.units.temp_unit} soon={this.props.soon} {...this.props.current}/>
             </div>
               {DisplayAlerts(this.props.alerts, (this.props.alerts.alert ? true : false))}
@@ -59,32 +46,6 @@ const DisplayAlerts = (data, isAlert = false) => {
   }
   return null;
 }
-const Navigation = (props) => {
-  console.log(props)
-  return (
-    <div className="navbar navbar-light">
-        <a className="navbar-brand">
-          <h1>{props.title}</h1>
-        </a>
-        <div className="btn-group ml-2 my-lg-0"
-        role="group"
-        aria-label="temp-units"
-        onClick={props.handler}>
-
-          <button
-          type="button"
-          className={"btn btn-secondary " + (props.temp_unit == "F" ? "active" : "")}
-          id="unit-F"> °F </button>
-
-          <button
-          type="button"
-          className={"btn btn-secondary " + (props.temp_unit == "C" ? "active" : "")}
-          id="unit-C"> °C </button>
-
-        </div>
-    </div>
-  )
-}
 
 const mapStatetoProps = (state, props)  => {
     return {
@@ -99,6 +60,9 @@ const mapDispatchtoProps = dispatch => {
   return {
     toggleTempUnit: (fromUnit, toUnit) => {
       dispatch(toggleTemp(fromUnit, toUnit))
+    },
+    toggleSpeedUnit: (fromUnit, toUnit) => {
+      dispatch(toggleSpeed(fromUnit, toUnit))
     }
   }
 }

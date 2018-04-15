@@ -33,7 +33,6 @@ class Temperature extends React.Component {
 }
 
 
-
 const SelectIcon = (props) => {
   switch(props.icon) {
     case 'clear-day':

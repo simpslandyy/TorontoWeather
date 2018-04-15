@@ -3,11 +3,13 @@ import React from 'react';
 class WeatherInfo extends React.Component {
   constructor(props) {
     super(props)
+
   }
 
   render() {
     console.log({HERE: this.props})
 
+    let prettyUnit = this.props.speed_unit == "kph" ? "km/h" : "mph";
     return (
       <div className="col-8">
         <div className="row">
@@ -21,13 +23,13 @@ class WeatherInfo extends React.Component {
           <InfoCards
           title="Wind"
           data={this.props.windSpeed}
-          unit='mph'
+          unit={prettyUnit}
           spanClass={"wi wi-wind towards-" + this.props.windBearing + "-deg"}/>
 
           <InfoCards
           title="Wind Gust"
           data={this.props.windGust}
-          unit="mph"
+          unit={prettyUnit}
           spanClass="wi wi-small-craft-advisory"/>
 
         </div>
