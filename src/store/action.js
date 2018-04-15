@@ -1,7 +1,11 @@
 import { config } from '../_buddyconfig.js';
 import { types, methods } from '../constants';
 
-
+/**
+  Helper Functions:
+    stingify* : builds the URL for the corresponding service
+    parseGoogle: parses the data to extra the location (lat/lng object)
+**/
 const stringifyDarkSky = (lat, lng) => {
   // Temp bypass cors, proxy https://cors-anywhere.herokuapp.com/
   let cors =  'https://cors-anywhere.herokuapp.com/';
@@ -17,6 +21,12 @@ const parseGoogle = (data) => {
   return data.results[0].geometry.location;
 }
 
+
+/**
+  Fetch Weather Forecast
+    Request location from Google to get lat/lng,
+    then request the forecast from DarkSky
+**/
 export const fetchWeather = (place) => {
   return async dispatch => {
     console.log('Requesting lat lng from Google');
@@ -24,8 +34,10 @@ export const fetchWeather = (place) => {
     var gdata = await gresponse.json();
 
     if (gdata.status != 'OK') {
+
       dispatch({type: types.SEARCH_ERROR, msg: 'Please provide a valid city'});
     } else {
+
       console.log('Requesting weather from DarkSky');
       let location = parseGoogle(gdata);
       let lat = location.lat;
@@ -40,6 +52,21 @@ export const fetchWeather = (place) => {
         dispatch({type: types.SEARCH_ERROR, msg: 'Something has gone wrong on our end! Sorry!'});
       }
     }
-  }
+  };
+};
 
-}
+/**
+  Action to toggle between Fahrenheit and Celsius
+**/
+export const toggleTemp = (fromUnit, toUnit) => {
+  return dispatch => {
+    console.log({toUnit: toUnit, fromUnit: fromUnit})
+    if (fromUnit != toUnit) {
+      if (toUnit == "C") {
+        dispatch({type: types.TO_CELSIUS})
+      } else {
+        dispatch({type: types.TO_FAHREN})
+      }
+    }
+  };
+};
