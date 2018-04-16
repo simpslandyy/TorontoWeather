@@ -19,7 +19,6 @@ class TorontoWeather extends React.Component {
 
 
       return (
-
         <div className="container">
             <Navigation
             title={this.props.search}
