@@ -1,5 +1,5 @@
 import { config } from '../_buddyconfig.js';
-import { types, methods } from '../constants';
+import { types, methods, allUnits } from '../constants';
 
 /**
   Helper Functions:
@@ -62,7 +62,7 @@ export const toggleTemp = (fromUnit, toUnit) => {
   return dispatch => {
     console.log({toUnit: toUnit, fromUnit: fromUnit})
     if (fromUnit != toUnit) {
-      if (toUnit == "C") {
+      if (toUnit == allUnits.CELSIUS) {
         dispatch({type: types.TO_CELSIUS})
       } else {
         dispatch({type: types.TO_FAHREN})
@@ -78,7 +78,7 @@ export const toggleSpeed = (fromUnit, toUnit) => {
   return dispatch => {
     console.log({toUnit: toUnit, fromUnit: fromUnit})
     if (fromUnit != toUnit) {
-      if (toUnit == "kph") {
+      if (toUnit == allUnits.KPH) {
         dispatch({type: types.TO_KPH})
       } else {
         dispatch({type: types.TO_MPH})

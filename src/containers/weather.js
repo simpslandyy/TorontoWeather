@@ -16,7 +16,8 @@ class TorontoWeather extends React.Component {
     }
 
     render () {
-      console.log(this.props.hourly.summary)
+
+
       return (
 
         <div className="container">
@@ -31,7 +32,7 @@ class TorontoWeather extends React.Component {
               <WeatherInfo
               speed_unit={this.props.units.speed_unit}
               {...this.props.current} />
-              <Temperature 
+              <Temperature
               temp_unit={this.props.units.temp_unit}
               soon={this.props.hourly.summary} {...this.props.current}/>
             </div>
@@ -45,6 +46,8 @@ class TorontoWeather extends React.Component {
 
       )}
 }
+
+
 
 const DisplayAlerts = (data, isAlert = false) => {
   if (isAlert) {

@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 import  moment  from 'moment';
-import { types } from '../constants';
+import { types, allUnits } from '../constants';
 const { Map } = Immutable;
 
 const currentlyIS = Map({
@@ -13,7 +13,8 @@ const currentlyIS = Map({
   humidity: 0,
   windSpeed: 0,
   windGust: 0,
-  windBearing: 0
+  windBearing: 0,
+  pop: 0
 });
 
 const hourlyIS = Map({
@@ -44,7 +45,7 @@ const parseCurrently = (state, data) => {
     .set('windSpeed', Math.ceil(data.windSpeed))
     .set('windGust', Math.ceil(data.windGust))
     .set('windBearing', data.windBearing)
-    .set('pop', (precipProbability * 100));
+    .set('pop', (data.precipProbability * 100));
 };
 
 const parseHourly = (state, data) => {
@@ -82,13 +83,13 @@ const parseAlerts = (state, data) => {
 export const units = (state = unitsIS, action = {}) => {
   switch(action.type) {
     case types.TO_MPH:
-      return state.set('speed_unit', 'mph');
+      return state.set('speed_unit', allUnits.MPH);
     case types.TO_KPH:
-      return state.set('speed_unit', 'kph');
+      return state.set('speed_unit', allUnits.KPH);
     case types.TO_CELSIUS:
-      return state.set('temp_unit', 'C');
+      return state.set('temp_unit', allUnits.CELSIUS);
     case types.TO_FAHREN:
-      return state.set('temp_unit', 'F');
+      return state.set('temp_unit', allUnits.FAH);
     default:
       return state;
   }
@@ -102,26 +103,24 @@ export const currently = (state = currentlyIS, action = {}) => {
     case types.TO_MPH:
       var windSpeed = state.get('windSpeed');
       var windGust = state.get('windGust');
-      const TOMPH = 0.621371;
 
-      return state.set('windGust', Math.ceil(windGust * TOMPH)).set('windSpeed', Math.ceil(windSpeed * TOMPH))
+      return state.set('windGust', conversionCalulator(allUnits.MPH, windGust)).set('windSpeed', conversionCalulator(allUnits.MPH, windSpeed));
 
     case types.TO_KPH:
       var windSpeed = state.get('windSpeed');
       var windGust = state.get('windGust');
-      const TOKPH = 1.60934 ;
 
-      return state.set('windGust', Math.ceil(windGust * TOKPH)).set('windSpeed', Math.ceil(windSpeed * TOKPH))
+      return state.set('windGust', conversionCalulator(allUnits.KPH, windGust)).set('windSpeed', conversionCalulator(allUnits.KPH, windSpeed));
 
     case types.TO_CELSIUS:
       var temp = state.get('temp');
       var feelsLike = state.get('feelsLike');
-      return state.set('temp', Math.ceil((temp - 32) * 5/9)).set('feelsLike', Math.ceil((feelsLike - 32) * 5/9));
+      return state.set('temp', conversionCalulator(allUnits.CELSIUS, temp)).set('feelsLike', conversionCalulator(allUnits.CELSIUS, feelsLike));
 
     case types.TO_FAHREN:
       var temp = state.get('temp');
       var feelsLike = state.get('feelsLike');
-      return state.set('temp', Math.ceil((temp * 9/5) + 32)).set('feelsLike', Math.ceil((feelsLike * 9/5) + 32));
+      return state.set('temp', conversionCalulator(allUnits.FAH, temp)).set('feelsLike', conversionCalulator(allUnits.FAH, feelsLike));
 
     default:
       return state;
@@ -132,6 +131,39 @@ export const hourly = (state = hourlyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
       return action.data.hourly ? parseHourly(state, action.data.hourly) : state;
+      case types.TO_MPH:
+        var dataBlock = state.get('forecast');
+        dataBlock.forEach((forecast) =>  {
+          forecast.windGust = conversionCalulator(allUnits.MPH, forecast.windGust)
+          forecast.windSpeed = conversionCalulator(allUnits.MPH, forecast.windSpeed)
+        })
+        return state.set('forecast', dataBlock);
+
+      case types.TO_KPH:
+        var dataBlock = state.get('forecast');
+        dataBlock.forEach((forecast) =>  {
+          forecast.windGust = conversionCalulator(allUnits.KPH, forecast.windGust)
+          forecast.windSpeed = conversionCalulator(allUnits.KPH, forecast.windSpeed)
+        })
+        return state.set('forecast', dataBlock);
+
+      case types.TO_CELSIUS:
+        var dataBlock = state.get('forecast');
+        dataBlock.forEach((forecast) => {
+          forecast.temp = conversionCalulator(allUnits.CELSIUS, forecast.temp);
+          forecast.feelsLike = conversionCalulator(allUnits.CELSIUS, forecast.feelsLike);
+        })
+
+        return state.set('forecast', dataBlock);
+
+      case types.TO_FAHREN:
+        var dataBlock = state.get('forecast');
+        dataBlock.forEach((forecast) => {
+          forecast.temp = conversionCalulator(allUnits.FAH, forecast.temp);
+          forecast.feelsLike = conversionCalulator(allUnits.FAH, forecast.feelsLike);
+        })
+
+        return state.set('forecast', dataBlock);
     default:
       return state;
   }
@@ -161,3 +193,22 @@ export const alerts = (state = alertsIS, action = {}) => {
       return state;
   }
 };
+
+
+const conversionCalulator = (toUnit, value) => {
+  const KPH_CONVERSION = 1.60934;
+  const MPH_CONVERSION = 0.621371;
+
+  switch(toUnit) {
+    case allUnits.KPH:
+      return Math.ceil(value * KPH_CONVERSION);
+    case allUnits.MPH:
+      return Math.ceil(value * MPH_CONVERSION);
+    case allUnits.FAH:
+      return Math.ceil((value * 9/5) + 32);
+    case allUnits.CELSIUS:
+      return Math.ceil((value - 32) * 5/9);
+    default:
+      break;
+  }
+}

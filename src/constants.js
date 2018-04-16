@@ -18,3 +18,11 @@ export const methods = {
     method: 'GET'
   }
 }
+
+
+export const allUnits = {
+  KPH: 'kph',
+  MPH: 'mph',
+  CELSIUS: 'C',
+  FAH: 'F'
+}

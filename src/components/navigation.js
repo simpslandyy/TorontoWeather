@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { allUnits } from '../constants'
 class Navigation extends React.Component {
   constructor(props) {
     super(props);
@@ -14,13 +14,13 @@ class Navigation extends React.Component {
     let unitValue = id.split('-')[1];
     let currValue = this.props.temp_unit;
     switch(unitValue) {
-      case 'F':
-      case 'C':
+      case allUnits.FAH:
+      case allUnits.CELSIUS:
         console.log("HANDLING " + unitValue)
         this.props.toggleTempUnit(currValue, unitValue);
         break;
-      case 'kph':
-      case 'mph':
+      case allUnits.KPH:
+      case allUnits.MPH:
         this.props.toggleSpeedUnit(currValue, unitValue)
         break;
     }
@@ -41,12 +41,12 @@ class Navigation extends React.Component {
             onClick={this.handleClick}>
               <button
               type="button"
-              className={"btn btn-secondary " + (this.props.temp_unit == "F" ? "active" : "")}
+              className={"btn btn-secondary " + (this.props.temp_unit == allUnits.FAH ? "active" : "")}
               id="unit-F"> °F </button>
 
               <button
               type="button"
-              className={"btn btn-secondary " + (this.props.temp_unit == "C" ? "active" : "")}
+              className={"btn btn-secondary " + (this.props.temp_unit == allUnits.CELSIUS ? "active" : "")}
               id="unit-C"> °C </button>
             </div>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { allUnits } from '../constants'
 
 class WeatherInfo extends React.Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class WeatherInfo extends React.Component {
   render() {
     console.log({HERE: this.props})
 
-    let prettyUnit = this.props.speed_unit == "kph" ? "km/h" : "mph";
+    let prettyUnit = this.props.speed_unit == allUnits.KPH ? "km/h" : allUnits.MPH;
     return (
       <div className="col-8">
         <div className="row">
@@ -32,6 +33,12 @@ class WeatherInfo extends React.Component {
           unit={prettyUnit}
           spanClass="wi wi-small-craft-advisory"/>
 
+          <InfoCards
+          title="POP"
+          data={this.props.pop}
+          unit="%"
+          spanClass="wi wi-raindrop"/>
+
         </div>
       </div>
     )
@@ -41,12 +48,12 @@ class WeatherInfo extends React.Component {
 
 const InfoCards = (props) => {
   return (
-    <div className="col-4">
+    <div className="col-3">
       <div className="card">
         <div className="card-body">
-          <h4 className="card-title">{props.data + " " + props.unit} </h4>
-          <h5 className="card-subtitle mb-2 text-muted"> {props.title}
-           <span className={"ml-1 "+ props.spanClass}></span> </h5>
+          <h3 className="card-title">{props.data + " " + props.unit} </h3>
+          <h6 className="card-subtitle mb-2 text-muted"> {props.title}
+           <span className={"ml-1 "+ props.spanClass}></span> </h6>
         </div>
       </div>
     </div>
