@@ -16,8 +16,9 @@ const currentlyIS = Map({
   windBearing: 0
 });
 
-const minutelyIS = Map({
-  summary: ""
+const hourlyIS = Map({
+  summary: "",
+  forecast: []
 });
 
 const alertsIS = Map({
@@ -42,11 +43,33 @@ const parseCurrently = (state, data) => {
     .set('humidity', (data.humidity * 100))
     .set('windSpeed', Math.ceil(data.windSpeed))
     .set('windGust', Math.ceil(data.windGust))
-    .set('windBearing', data.windBearing);
+    .set('windBearing', data.windBearing)
+    .set('pop', (precipProbability * 100));
 };
 
-const parseMinutely = (state, data) => {
-  return state.set('summary', data.summary);
+const parseHourly = (state, data) => {
+  // save the next 5 hours.
+  let futureBlock = data.data.slice(1, 6);
+  let bundle = [];
+
+  futureBlock.map((forecast) => {
+    let d = new Date(forecast.time * 1000);
+    var block = {
+      icon: forecast.icon,
+      humidity: (forecast.humidity * 100),
+      temp: Math.ceil(forecast.temperature),
+      time: moment(d).format('LT'),
+      summary: forecast.summary,
+      windGust: Math.ceil(forecast.windGust),
+      windSpeed: Math.ceil(forecast.windSpeed),
+      pop: (forecast.precipProbability * 100),
+      feelsLike: Math.ceil(forecast.apparentTemperature)
+    }
+
+    bundle.push(block);
+  })
+
+  return state.set('summary', data.summary).set('forecast', bundle);
 };
 
 const parseAlerts = (state, data) => {
@@ -70,6 +93,7 @@ export const units = (state = unitsIS, action = {}) => {
       return state;
   }
 }
+
 export const currently = (state = currentlyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
@@ -104,22 +128,29 @@ export const currently = (state = currentlyIS, action = {}) => {
   }
 };
 
-export const minutely = (state = minutelyIS, action = {}) => {
+export const hourly = (state = hourlyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
-      return action.data.minutely ? parseMinutely(state, action.data.minutely) : parseMinutely(state, action.data.hourly);
+      return action.data.hourly ? parseHourly(state, action.data.hourly) : state;
     default:
       return state;
   }
 };
 
+/**
+  Fix alerts => save a list of alerts.
+**/
 export const alerts = (state = alertsIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
       if (action.data.alerts) {
         if (action.data.alerts.length > 0) {
           if (action.data.alerts.length > 1){
-            return parseAlerts(state, action.data.alerts[1]);
+            let alertBlock = action.data.alerts[0];
+            var alertBlockB = action.data.alerts[1];
+
+            alertBlock = alertBlock.description.length > alertBlockB.description.length ? alertBlock : alertBlockB;
+            return parseAlerts(state, alertBlock);
           } else {
             return parseAlerts(state, action.data.alerts[0]);
           }
@@ -130,28 +161,3 @@ export const alerts = (state = alertsIS, action = {}) => {
       return state;
   }
 };
-
-
-// export const getCurrently = (state = currentlyIS) => {
-//   console.log(state)
-//   if (state.isEmpty()) {
-//     return {};
-//   }
-//
-//   return state.toJSON();
-// }
-
-// export const getMinutely = (state) => {
-//   if(!state || state.isEmpty()) {
-//     return {};
-//   }
-//   return state.toJSON();
-// }
-//
-// export const getAlerts = (state) => {
-//   if(!state || state.isEmpty()) {
-//     return {};
-//   }
-//
-//   return state.toJSON();
-// }

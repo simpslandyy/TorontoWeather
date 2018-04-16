@@ -3,6 +3,7 @@ import { Temperature } from '../components/temperature';
 import { WeatherInfo } from '../components/weatherInfo';
 import { WeatherAlerts } from '../components/weatherAlerts';
 import { Navigation } from '../components/navigation';
+import { Forecast } from '../components/forecast';
 
 import { getCurrently } from '../store/reducer';
 import { toggleTemp, toggleSpeed } from '../store/action';
@@ -15,6 +16,7 @@ class TorontoWeather extends React.Component {
     }
 
     render () {
+      console.log(this.props.hourly.summary)
       return (
 
         <div className="container">
@@ -26,10 +28,18 @@ class TorontoWeather extends React.Component {
             toggleSpeedUnit={this.props.toggleSpeedUnit}/>
 
             <div className="row">
-              <WeatherInfo speed_unit={this.props.units.speed_unit} {...this.props.current} />
-              <Temperature temp_unit={this.props.units.temp_unit} soon={this.props.soon} {...this.props.current}/>
+              <WeatherInfo
+              speed_unit={this.props.units.speed_unit}
+              {...this.props.current} />
+              <Temperature 
+              temp_unit={this.props.units.temp_unit}
+              soon={this.props.hourly.summary} {...this.props.current}/>
             </div>
               {DisplayAlerts(this.props.alerts, (this.props.alerts.alert ? true : false))}
+              <Forecast
+              temp_unit={this.props.units.temp_unit}
+              speed_unit={this.props.units.speed_unit}
+              {...this.props.hourly} />
         </div>
 
 
@@ -50,7 +60,7 @@ const DisplayAlerts = (data, isAlert = false) => {
 const mapStatetoProps = (state, props)  => {
     return {
       current: state.currently.toJSON(),
-      soon: state.minutely.toJSON(),
+      hourly: state.hourly.toJSON(),
       alerts: state.alerts.toJSON(),
       units: state.units.toJSON()
     }
