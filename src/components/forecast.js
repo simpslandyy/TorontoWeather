@@ -32,8 +32,8 @@ class Forecast extends React.Component {
 const Hour = (props) => {
  return (
       <div className="card">
+      <div className="card-header text-center text-muted">{props.time} </div>
         <div className="card-body">
-          <p className="card-subtitle text-center text-muted"> {props.time}</p>
           <p className="card-subtitle text-center" id="summary-subtitle"> {props.summary} </p>
           <h4 className="card-title text-center m-5">
             <span className={'mr-2 ' + SelectIcon(props)}> </span>
@@ -53,7 +53,7 @@ const Hour = (props) => {
 
 const Subtitle = (props) => {
   return (
-    <p className="card-subtitle pt-2 text-muted">
+    <p className="card-subtitle pt-2">
       {props.title + ": " + props.data}
     </p>
   )
