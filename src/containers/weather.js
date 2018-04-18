@@ -51,7 +51,7 @@ class TorontoWeather extends React.Component {
 
 
 
-const DisplayAlerts = (data, isAlert, debug=false) => {
+const DisplayAlerts = (data, isAlert, debug=true) => {
   if (isAlert || debug) {
     return (
       <div className="row">
