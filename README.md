@@ -30,14 +30,18 @@ xxxxx',
 
 Or you can just ask me for the file and I can provide it as well :)
 
+Next, follow these steps:
+- `Run npm install` - to install the node modules
+- `Run npm start` - to spin up the server
+- Visit `localhost:5000` - to view the page
+
 ## Architecture
 
 ### Pre-processor and Server
 I'm still fairly new to **Webpacker**, but I do see the benefits of using it. So for this assignment I decided to use Webpacker as my pre-processor and bundler. To serve my web-application I used a simple **Express** server that compiles webpack and serves it using the [webpack-dev-middleware](https://github.com/webpack/docs/wiki/webpack-dev-middleware).
 
 
-Some early issues I had with DarkSky revolved around the fact they disable CORS on their servers. The first solution was to bypass this by adding `mode: no-cors` to the request header however that wasn't a viable solution because I was working in a virtual machine. So the next best option, without fiddling around my virtual machine was to just put my requests behind a proxy. I used 'cors-anywhere', which is a simple URI that is attached to the front of the API URI
-
+Some early issues I had with DarkSky revolved around the fact they disable CORS on their servers. The first solution was to bypass this by adding `mode: no-cors` to the request header however that wasn't a viable solution because I was working in a virtual machine. So the next best option, without fiddling around my virtual machine was to just put my requests behind a proxy. I used 'cors-anywhere', which is a simple URI that is attached to the front of the API URI.
 
 ### Front-End
 I'm also still fairly new to React and Redux but I'm a firm believer in it's methodologies (FLUX!!!). Development is slicker, cleaner, and easier to debug _(once you wrap your head around the 1million possible errors)_
