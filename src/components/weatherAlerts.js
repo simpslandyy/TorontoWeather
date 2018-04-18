@@ -34,14 +34,4 @@ class WeatherAlerts extends React.Component {
 }
 
 
-// <div className="card text-center">
-//   <div className="card-header" id="weather-alerts">
-//       {this.props.warning_level}
-//   </div>
-//   <div className="card-body">
-//     <h5 className="card-title"> {this.props.alert} </h5>
-//     <p className="card-text"> {this.props.description} </p>
-//   </div>
-// <div>
-
 export { WeatherAlerts }

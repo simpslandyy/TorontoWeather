@@ -29,27 +29,32 @@ const parseGoogle = (data) => {
 **/
 export const fetchWeather = (place) => {
   return async dispatch => {
-    console.log('Requesting lat lng from Google');
+    // Request the lat/lng of the place provided.
     var gresponse = await fetch(stringifyGoogle(place), methods.GET);
     var gdata = await gresponse.json();
 
+    // If the status is not okay, then just console.log an error
+    // This can be changed to dispatch an action, but for the scope of this
+    // assignment I will leave it out
     if (gdata.status != 'OK') {
-
-      dispatch({type: types.SEARCH_ERROR, msg: 'Please provide a valid city'});
+      console.log("Error!");
     } else {
 
-      console.log('Requesting weather from DarkSky');
+      // Parse the google data for the lat/lng
       let location = parseGoogle(gdata);
       let lat = location.lat;
       let lng = location.lng;
 
+      // Request data from DarkSky API
       var response = await fetch(stringifyDarkSky(lat, lng), methods.GET);
       var data = await response.json();
+
+      // Dispatch reducers for succesful fetch
       if (response.ok) {
         dispatch({type: types.SEARCH_SUCCESS, data: data})
       } else {
-        console.log("ERROR")
-        dispatch({type: types.SEARCH_ERROR, msg: 'Something has gone wrong on our end! Sorry!'});
+        console.log("ERROR");
+        // dispatch({type: types.SEARCH_ERROR, msg: 'Something has gone wrong on our end! Sorry!'});
       }
     }
   };
@@ -60,7 +65,8 @@ export const fetchWeather = (place) => {
 **/
 export const toggleTemp = (fromUnit, toUnit) => {
   return dispatch => {
-    console.log({toUnit: toUnit, fromUnit: fromUnit})
+
+    // If the unit is the same as before, don't do anything
     if (fromUnit != toUnit) {
       if (toUnit == allUnits.CELSIUS) {
         dispatch({type: types.TO_CELSIUS})
@@ -76,7 +82,8 @@ export const toggleTemp = (fromUnit, toUnit) => {
 **/
 export const toggleSpeed = (fromUnit, toUnit) => {
   return dispatch => {
-    console.log({toUnit: toUnit, fromUnit: fromUnit})
+
+    // If the unit is the same as before, don't do anything
     if (fromUnit != toUnit) {
       if (toUnit == allUnits.KPH) {
         dispatch({type: types.TO_KPH})

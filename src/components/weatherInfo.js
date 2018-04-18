@@ -8,8 +8,6 @@ class WeatherInfo extends React.Component {
   }
 
   render() {
-    console.log({HERE: this.props})
-
     let prettyUnit = this.props.speed_unit == allUnits.KPH ? "km/h" : allUnits.MPH;
     return (
       <div className="col-8">

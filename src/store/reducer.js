@@ -3,6 +3,7 @@ import  moment  from 'moment';
 import { types, allUnits } from '../constants';
 const { Map } = Immutable;
 
+/*--------------------------- INITIAL STATES ---------------------------*/
 const currentlyIS = Map({
   time: null,
   date: null,
@@ -35,8 +36,10 @@ const unitsIS = Map({
   speed_unit: "mph"
 })
 
+
+/*--------------------------- PARSERS ---------------------------*/
+
 const parseCurrently = (state, data) => {
-  //conver windSpeed from mph to kph
   return state.set('summary', data.summary)
     .set('icon', data.icon)
     .set('temp', Math.ceil(data.temperature))
@@ -53,6 +56,7 @@ const parseHourly = (state, data) => {
   let futureBlock = data.data.slice(1, 6);
   let bundle = [];
 
+  // For each block, parse the data similar to the format of currently
   futureBlock.map((forecast) => {
     let d = new Date(forecast.time * 1000);
     var block = {
@@ -80,6 +84,8 @@ const parseAlerts = (state, data) => {
       .set('description', data.description);
 };
 
+
+/*--------------------------- REDUCERS ---------------------------*/
 export const units = (state = unitsIS, action = {}) => {
   switch(action.type) {
     case types.TO_MPH:
@@ -100,6 +106,8 @@ export const currently = (state = currentlyIS, action = {}) => {
     case types.SEARCH_SUCCESS:
       return action.data.currently ? parseCurrently(state, action.data.currently) : state;
 
+    // on conversions, get the current state,
+    // and preform the conversions for the appropriate data fields
     case types.TO_MPH:
       var windSpeed = state.get('windSpeed');
       var windGust = state.get('windGust');
@@ -130,7 +138,11 @@ export const currently = (state = currentlyIS, action = {}) => {
 export const hourly = (state = hourlyIS, action = {}) => {
   switch(action.type) {
     case types.SEARCH_SUCCESS:
+      // on success parse the data and return a new state.
       return action.data.hourly ? parseHourly(state, action.data.hourly) : state;
+
+      // on conversions, get the current state, iterate over each forecast block
+      // and preform the conversions for the appropriate data fields
       case types.TO_MPH:
         var dataBlock = state.get('forecast');
         dataBlock.forEach((forecast) =>  {
@@ -170,7 +182,9 @@ export const hourly = (state = hourlyIS, action = {}) => {
 };
 
 /**
-  Fix alerts => save a list of alerts.
+  The Alerts Reducer only saves ONE alert,
+  ideally we should be able to go through many alerts, but for the time being
+  I think one alert is okay :)
 **/
 export const alerts = (state = alertsIS, action = {}) => {
   switch(action.type) {
@@ -194,6 +208,7 @@ export const alerts = (state = alertsIS, action = {}) => {
   }
 };
 
+/*--------------------------- HELPER FUNCTIONS ---------------------------*/
 
 const conversionCalulator = (toUnit, value) => {
   const KPH_CONVERSION = 1.60934;

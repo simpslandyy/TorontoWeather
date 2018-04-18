@@ -5,16 +5,17 @@ import { SelectIcon } from './selectIcon';
 class Forecast extends React.Component {
   constructor(props) {
     super(props);
+
   }
 
   render() {
-    console.log({FORECAST: this.props})
+    let title =  "5-Hour Forecast";
     return (
       <div className="row">
         <div className="card-body">
         <h3 className="card-title text-center pt-2 pb-3" id="forecast-header">
           <span className="mr-2 wi wi-time-5"> </span>
-          5-Hour Forecast
+          {title}
           </h3>
           <div className="card-deck mt-2 mb-1" id="forecast-group">
             {this.props.forecast.map((hourF, idx) =>
@@ -29,7 +30,6 @@ class Forecast extends React.Component {
 
 
 const Hour = (props) => {
-  console.log({HOUR: props})
  return (
       <div className="card">
         <div className="card-body">
