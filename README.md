@@ -5,32 +5,6 @@
 Hiyo! This is the Toronto Weather Web-Application :)
 **Proposal:** To create a simple web application that uses DarkSky API to retrive the current weather for Toronto.
 ## Getting Started
-
-There are two files that you should set up before running this application
-
-- **.env** file for configuration, used to set server mode = ['development', 'production'] _(optional: it doesn't do much considering I needed to hush webpacker up)_
-
-- **/src/\_buddyconfig.js** - this contains the API keys for Google and DarkSky. **(required)**
-
-\_buddyconfig.js structure:
-
-```
-export const config = {
-  darkSky: {
-    baseurl: 'https://api.darksky.net/forecast/',
-    key : 'xxxxxxxxxxxxxxxxxxxxxxxxxxapp.use(proxy);
-xxxxx',
-  },
-  google: {
-    baseurl: 'https://maps.googleapis.com/maps/api/geocode/',
-    key: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-  }
-}
-```
-
-Or you can just ask me for the file and I can provide it as well :)
-
-Next, follow these steps:
 - `Run npm install` - to install the node modules
 - `Run npm start` - to spin up the server
 - Visit `localhost:5000` - to view the page
