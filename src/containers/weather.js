@@ -19,37 +19,40 @@ class TorontoWeather extends React.Component {
 
 
       return (
-        <div className="container">
-            <Navigation
-            title={this.props.search}
-            temp_unit={this.props.units.temp_unit}
-            speed_unit={this.props.units.speed_unit}
-            toggleTempUnit={this.props.toggleTempUnit}
-            toggleSpeedUnit={this.props.toggleSpeedUnit}/>
+        <div>
+          <Navigation
+          title={this.props.search}
+          temp_unit={this.props.units.temp_unit}
+          speed_unit={this.props.units.speed_unit}
+          toggleTempUnit={this.props.toggleTempUnit}
+          toggleSpeedUnit={this.props.toggleSpeedUnit}/>
 
-            <div className="row">
-              <WeatherInfo
-              speed_unit={this.props.units.speed_unit}
-              {...this.props.current} />
-              <Temperature
-              temp_unit={this.props.units.temp_unit}
-              soon={this.props.hourly.summary} {...this.props.current}/>
-            </div>
-              {DisplayAlerts(this.props.alerts, (this.props.alerts.alert ? true : false))}
-              <Forecast
-              temp_unit={this.props.units.temp_unit}
-              speed_unit={this.props.units.speed_unit}
-              {...this.props.hourly} />
+          <div className="container weather-app-content">
+          {DisplayAlerts(this.props.alerts, (this.props.alerts.alert ? true : false))}
+              <div className="row" id="color-container">
+                <Temperature
+                temp_unit={this.props.units.temp_unit}
+                soon={this.props.hourly.summary} {...this.props.current}/>
+              </div>
+              <div className="row">
+                <WeatherInfo
+                speed_unit={this.props.units.speed_unit}
+                {...this.props.current} />
+              </div>
+                <Forecast
+                temp_unit={this.props.units.temp_unit}
+                speed_unit={this.props.units.speed_unit}
+                {...this.props.hourly} />
+          </div>
         </div>
-
 
       )}
 }
 
 
 
-const DisplayAlerts = (data, isAlert = false) => {
-  if (isAlert) {
+const DisplayAlerts = (data, isAlert, debug=true) => {
+  if (isAlert || debug) {
     return (
       <div className="row">
         <WeatherAlerts {...data} />

@@ -8,16 +8,16 @@ class Temperature extends React.Component {
 
   render() {
     return (
-      <div className="col-4">
-        <div className="card mb-3" id="temperature-content">
+      <div id="center-temp">
+        <div className="card mb-3 mt-3" id="temperature-content">
         <div className="card-body text-center">
-          <h1 className="card-title">
-          <span className={'mr-2 '+ SelectIcon(this.props)}> </span>
-          {this.props.temp + "°" + this.props.temp_unit}
-          </h1>
-          <p className="card-subtitle pb-2"> Feels Like:
-            <h5 id="temperature-header"> {this.props.feelsLike + "°" + this.props.temp_unit} </h5>
-          </p>
+          <h2 className="card-title">
+            <span className={'mr-2 '+ SelectIcon(this.props)}> </span>
+            {this.props.temp + "°" + this.props.temp_unit}
+          </h2>
+          <div className="card-subtitle pb-2"> Feels Like:
+            <h5> {this.props.feelsLike + "°" + this.props.temp_unit} </h5>
+          </div>
           <h6 className="card-subtitle text-muted" id="summary-subtitle"> {this.props.summary} </h6>
         </div>
         <div className="dropdown-divider"></div>

@@ -13,7 +13,7 @@ class WeatherInfo extends React.Component {
     let prettyUnit = this.props.speed_unit == allUnits.KPH ? "km/h" : allUnits.MPH;
     return (
       <div className="col-8">
-        <div className="row">
+        <div className="row mb-3 mt-3" id="center-weather-info">
 
           <InfoCards
           title="Humidity"
@@ -51,7 +51,7 @@ const InfoCards = (props) => {
     <div className="col-3">
       <div className="card">
         <div className="card-body">
-          <h3 className="card-title">{props.data + " " + props.unit} </h3>
+          <h4 className="card-title">{props.data + " " + props.unit} </h4>
           <h6 className="card-subtitle mb-2 text-muted"> {props.title}
            <span className={"ml-1 "+ props.spanClass}></span> </h6>
         </div>

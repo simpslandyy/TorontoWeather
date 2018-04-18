@@ -1,12 +1,101 @@
-#weather-alerts {
-  background-color: red;
+.container-fullwidth {
+  background-color: #C6C6C6;
+  font-family: 'Raleway', sans-serif;
+
+}
+
+.container {
+  background-color: #FFF;
+}
+
+.weather-app-content {
+  margin-top: 4em;
 }
 
 
-#temperature-header {
+.weather-app-content span {
+  color: #113179;
+
+}
+
+/* Navigation */
+
+.navbar-light {
+  background-color: #113179;
+}
+
+#weather-nav .navbar-brand {
+  font-family: 'Bitter', sans-serif;
+  color: #FFF;
+}
+
+#weather-nav h1 {
+  font-size: 25px;
   display: inline;
 }
 
+
+#weather-nav span {
+  font-size: 2.5rem;
+}
+
+
+/**/
+
+/* Weather Alert System */
+#weather-alerts {
+  background-color: #740025;
+}
+
+
+#weather-alerts h3 {
+  font-family: 'Bitter', serif;
+  color: #FFF;
+}
+
+#weather-alerts h3 > span {
+  color: #FFF;
+}
+
+/* Temperature */
+
+#color-container {
+  background-color: #E0F3FF;
+}
+
+#center-temp {
+  position: relative;
+  left: 27em;
+}
+
+
+#temperature-content h2 {
+  color: #333333;
+}
+
+
+#temperature-content h5 {
+  display: inline;
+}
+
+/* Weather Info */
+#center-weather-info {
+  position: relative;
+  left: 12em;
+}
+
+
+/* Forecast */
+
+#forecast-header {
+  background-color: #113179;
+  font-family: 'Bitter', serif;
+  color: #FFF;
+}
+
+#forecast-header > span {
+  color: #FFF;
+}
 
 #summary-subtitle {
   white-space: nowrap;

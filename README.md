@@ -18,7 +18,8 @@ There are two files that you should set up before running this application
 export const config = {
   darkSky: {
     baseurl: 'https://api.darksky.net/forecast/',
-    key : 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    key : 'xxxxxxxxxxxxxxxxxxxxxxxxxxapp.use(proxy);
+xxxxx',
   },
   google: {
     baseurl: 'https://maps.googleapis.com/maps/api/geocode/',
@@ -33,6 +34,9 @@ Or you can just ask me for the file and I can provide it as well :)
 
 ### Pre-processor and Server
 I'm still fairly new to **Webpacker**, but I do see the benefits of using it. So for this assignment I decided to use Webpacker as my pre-processor and bundler. To serve my web-application I used a simple **Express** server that compiles webpack and serves it using the [webpack-dev-middleware](https://github.com/webpack/docs/wiki/webpack-dev-middleware).
+
+
+Some early issues I had with DarkSky revolved around the fact they disable CORS on their servers. The first solution was to bypass this by adding `mode: no-cors` to the request header however that wasn't a viable solution because I was working in a virtual machine. So the next best option, without fiddling around my virtual machine was to just put my requests behind a proxy. I used 'cors-anywhere', which is a simple URI that is attached to the front of the API URI
 
 
 ### Front-End

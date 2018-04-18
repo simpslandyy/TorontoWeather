@@ -9,7 +9,7 @@ import { types, methods, allUnits } from '../constants';
 const stringifyDarkSky = (lat, lng) => {
   // Temp bypass cors, proxy https://cors-anywhere.herokuapp.com/
   let cors =  'https://cors-anywhere.herokuapp.com/';
-  console.log(cors + config.darkSky.baseurl + config.darkSky.key + '/' + lat + ',' + lng)
+  // console.log(cors + config.darkSky.baseurl + config.darkSky.key + '/' + lat + ',' + lng)
   return cors + config.darkSky.baseurl + config.darkSky.key + '/' + lat + ',' + lng;
 }
 
