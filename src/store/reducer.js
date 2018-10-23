@@ -36,6 +36,11 @@ const unitsIS = Map({
   speed_unit: "mph"
 })
 
+const searchIS = Map({
+  search: "",
+  success: false,
+})
+
 
 /*--------------------------- PARSERS ---------------------------*/
 
@@ -86,6 +91,16 @@ const parseAlerts = (state, data) => {
 
 
 /*--------------------------- REDUCERS ---------------------------*/
+export const search = (state = searchIS, action = {}) => {
+  switch(action.type) {
+    case types.SEARCHING:
+      return state.set('search', action.data);
+    case types.SEARCH_SUCCESS:
+      return state.set('success', true);
+    default:
+      return state;
+  }
+}
 export const units = (state = unitsIS, action = {}) => {
   switch(action.type) {
     case types.TO_MPH:

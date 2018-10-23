@@ -12,12 +12,9 @@ import { connect } from 'react-redux';
 class TorontoWeather extends React.Component {
     constructor(props) {
       super(props);
-
     }
 
     render () {
-
-
       return (
         <div>
           <Navigation

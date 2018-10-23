@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 
 import * as reducers from './store/reducer';
 import { TorontoWeather } from './containers/weather';
+import { Search } from './containers/search';
 import { fetchWeather } from './store/action';
 
 import "regenerator-runtime/runtime"; //async await
@@ -32,7 +33,7 @@ class App extends React.Component {
   }
 
   render () {
-    return (<TorontoWeather {...this.props} />)
+    return (<Search />)
     }
 }
 

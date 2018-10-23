@@ -13,8 +13,9 @@ const stringifyDarkSky = (lat, lng) => {
   return cors + config.darkSky.baseurl + config.darkSky.key + '/' + lat + ',' + lng;
 }
 
+// Need to change this API for this to work
 const stringifyGoogle = (place) => {
-  return config.google.baseurl + 'json?address=' + place + '&key=' + config.google.key;
+  return config.google.baseurl + 'json?address=' + place;
 }
 
 const parseGoogle = (data) => {
@@ -29,6 +30,7 @@ const parseGoogle = (data) => {
 **/
 export const fetchWeather = (place) => {
   return async dispatch => {
+    dispatch({type: types.SEARCHING, data: place});
     // Request the lat/lng of the place provided.
     var gresponse = await fetch(stringifyGoogle(place), methods.GET);
     var gdata = await gresponse.json();
@@ -38,6 +40,7 @@ export const fetchWeather = (place) => {
     // assignment I will leave it out
     if (gdata.status != 'OK') {
       console.log("Error!");
+      console.log(gdata);
     } else {
 
       // Parse the google data for the lat/lng
